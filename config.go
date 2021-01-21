@@ -10,6 +10,7 @@ var (
 	defaultMetricsAddress = ":9090"
 	defaultDatabaseURL    = "sqlite:test.db"
 	defaultLaTrappeURL    = "https://www.kloosterwinkelonline.nl/la-trappe-trappist-oak-aged"
+	defaultListmonkURL    = "http://localhost:9000"
 )
 
 // Config contains all the config for serving la trappe melder
@@ -19,6 +20,8 @@ type Config struct {
 	AccessLog      bool
 	DatabaseURL    string
 	LaTrappeURL    string
+	ListmonkListID string
+	ListmonkURL    string
 }
 
 // BuildConfigFromEnv populates a config from env variables
@@ -29,6 +32,8 @@ func BuildConfigFromEnv() *Config {
 	config.MetricsAddress = getEnv("HTTP_ADDRESS", defaultMetricsAddress)
 	config.DatabaseURL = getEnv("DATABASE_URL", defaultDatabaseURL)
 	config.LaTrappeURL = getEnv("DATABASE_URL", defaultLaTrappeURL)
+	config.ListmonkListID = getEnv("LISTMONK_LIST_ID", "")
+	config.ListmonkURL = getEnv("LISTMONK_URL", defaultListmonkURL)
 
 	// access log
 	accessLog := getEnv("ACCESS_LOG", "1")
@@ -47,6 +52,9 @@ func (config *Config) Validate() error {
 	}
 	if config.MetricsAddress == "" {
 		return fmt.Errorf("MetricsAddress cannot be empty")
+	}
+	if config.ListmonkListID == "" {
+		return fmt.Errorf("ListmonkListID cannot be empty")
 	}
 
 	return nil

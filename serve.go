@@ -59,7 +59,14 @@ func (m *LaTrappeMelder) Serve() {
 	}))
 
 	e.GET("/", func(c echo.Context) error {
-		return c.HTML(http.StatusOK, "Welcome to La Trappe Melder! 🍻")
+
+		index, err := GetIndex(m.config)
+		if err != nil {
+			log.Errorf("couldn't get index: %v", err)
+			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")
+		}
+
+		return c.HTML(http.StatusOK, index)
 	})
 
 	log.WithField("config", fmt.Sprintf("%+v", m.config)).Println("Starting La Trappe Melder... 🍻")

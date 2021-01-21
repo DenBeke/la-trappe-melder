@@ -6,5 +6,33 @@ services:
     build: .
     ports:
       - "1234:1234"
+    environment:
+      - LISTMONK_URL=${LISTMONK_URL}
     volumes: 
       - ./data:/latrappemelder
+
+  listmonk:
+    container_name: listmonk
+    image: listmonk/listmonk:latest
+    ports:
+      - "9000:9000"
+    environment:
+      - LISTMONK_app__address=:9000
+      - LISTMONK_app__admin_username=${LISTMONK_ADMIN_USERNAME}
+      - LISTMONK_app__admin_password=${LISTMONK_ADMIN_PASSWORD}
+      - LISTMONK_db__db=db
+      - LISTMONK_db__user=${PG_USERNAME}
+      - LISTMONK_db__password=${PG_PASSWORD}
+      - LISTMONK_db__database=${PG_DB}
+      - LISTMONK_db__ssl_mode=disable
+    restart: unless-stopped
+    #volumes:
+    #  - ./data:/listmonk
+    
+  db:
+    image: postgres:11
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_USER=${PG_USERNAME}
+      - POSTGRES_DB=${PG_DB}
+    restart: unless-stopped
