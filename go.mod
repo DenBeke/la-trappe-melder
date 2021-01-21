@@ -5,4 +5,7 @@ go 1.14
 require (
 	github.com/PuerkitoBio/goquery v1.6.1
 	github.com/smartystreets/goconvey v1.6.4
+	github.com/xo/dburl v0.3.0
+	gorm.io/driver/sqlite v1.1.4
+	gorm.io/gorm v1.20.11
 )
