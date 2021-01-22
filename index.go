@@ -1,11 +1,5 @@
 package latrappemelder
 
-import (
-	"bytes"
-	"fmt"
-	"html/template"
-)
-
 var index = `
 <html>
 	<head>
@@ -35,18 +29,6 @@ var index = `
 
 func GetIndex(data interface{}) (string, error) {
 
-	t, err := template.New("").Parse(index)
-	if err != nil {
-		return "", fmt.Errorf("couldn't parse index template: %w", err)
-	}
-
-	var tpl bytes.Buffer
-	if err := t.Execute(&tpl, data); err != nil {
-		return "", fmt.Errorf("couldn't execute index template: %w", err)
-	}
-
-	result := tpl.String()
-
-	return result, nil
+	return htmlStringFromTemplate(index, data)
 
 }
