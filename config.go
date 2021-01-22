@@ -15,6 +15,7 @@ var (
 
 // Config contains all the config for serving la trappe melder
 type Config struct {
+	AppURL         string
 	HTTPAddress    string
 	MetricsAddress string
 	AccessLog      bool
@@ -38,6 +39,7 @@ type Config struct {
 func BuildConfigFromEnv() *Config {
 	config := &Config{}
 
+	config.AppURL = getEnv("APP_URL", "")
 	config.HTTPAddress = getEnv("HTTP_ADDRESS", defaultHTTPAddress)
 	config.MetricsAddress = getEnv("METRICS_ADDRESS", defaultMetricsAddress)
 	config.DatabaseURL = getEnv("DATABASE_URL", defaultDatabaseURL)
@@ -75,6 +77,9 @@ func BuildConfigFromEnv() *Config {
 // Validate validates whether all config is set and valid
 func (config *Config) Validate() error {
 
+	if config.AppURL == "" {
+		return fmt.Errorf("APP_URL cannot be empty")
+	}
 	if config.HTTPAddress == "" {
 		return fmt.Errorf("HTTP_ADDRESS cannot be empty")
 	}

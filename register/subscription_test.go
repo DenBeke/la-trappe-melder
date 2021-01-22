@@ -1,7 +1,6 @@
 package register
 
 import (
-	"fmt"
 	"os"
 	"testing"
 
@@ -27,11 +26,17 @@ func TestSubscription(t *testing.T) {
 			email = "my.email@example.com"
 		)
 
+		exists, err := r.EmailExists(email)
+		So(err, ShouldBeNil)
+		So(exists, ShouldBeFalse)
+
 		s, err := r.Subscribe(name, email)
 		So(err, ShouldBeNil)
 		So(s, ShouldNotBeNil)
 
-		fmt.Printf("%+v", s)
+		exists2, err := r.EmailExists(email)
+		So(err, ShouldBeNil)
+		So(exists2, ShouldBeTrue)
 
 		So(s.Email, ShouldEqual, email)
 		So(s.Name, ShouldEqual, name)

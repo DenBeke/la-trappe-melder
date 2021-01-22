@@ -58,6 +58,18 @@ func (r *Register) UnSubscribe(email string) error {
 	return nil
 }
 
+// EmailExists checks whether the given email exists in the db
+func (r *Register) EmailExists(email string) (bool, error) {
+	s := []*Subscription{}
+
+	err := r.db.Where(&Subscription{Email: email}).Find(&s).Error
+	if err != nil {
+		return false, fmt.Errorf("couldn't retrieve batches from db: %w", err)
+	}
+
+	return len(s) == 1, nil
+}
+
 // GetAllSubscriptions returns all subscriptions
 func (r *Register) GetAllSubscriptions() ([]*Subscription, error) {
 	s := []*Subscription{}
