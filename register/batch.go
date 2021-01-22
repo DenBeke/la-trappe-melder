@@ -9,7 +9,7 @@ import (
 // Batch is just a stupid struct containing the La Trappe quadrupel Oak Aged batch number
 type Batch struct {
 	gorm.Model
-	Batch uint `gorm:"primaryKey;autoIncrement:false"`
+	Batch uint `gorm:"primaryKey;unique;autoIncrement:false"`
 }
 
 // AddBatch saves a newly detected batch number to the database

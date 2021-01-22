@@ -8,17 +8,13 @@ var index = `
 
 	<body>
 
-		<form method="post" action="{{ .ListmonkURL }}/subscription/form" class="listmonk-form">
+		<form method="get" action="{{ .AppURL }}/subscribe">
 			<div>
 				<h3>Subscribe</h3>
 				<p><input type="text" name="email" placeholder="E-mail" required /></p>
 				<p><input type="text" name="name" placeholder="Name" required /></p>
 			
-				<p>
-				<input id="a6458" type="checkbox" name="l" value="{{ .ListmonkListID }}" />
-				<label for="a6458">la-trappe-melder</label>
-				</p>
-				<p><input type="submit" value="Subscribe" /></p>
+				<p><input type="submit" value="Schrijf je in" /></p>
 			</div>
 		</form>	
 
@@ -26,9 +22,3 @@ var index = `
 	</body>
 </html>
 `
-
-func GetIndex(data interface{}) (string, error) {
-
-	return htmlStringFromTemplate(index, data)
-
-}

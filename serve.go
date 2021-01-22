@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/badoux/checkmail"
 	echoPrometheus "github.com/globocom/echo-prometheus"
@@ -155,7 +156,7 @@ func (m *LaTrappeMelder) Serve() {
 
 	e.GET("/", func(c echo.Context) error {
 
-		index, err := GetIndex(m.config)
+		index, err := htmlStringFromTemplate(index, m.config)
 		if err != nil {
 			log.Errorf("couldn't get index: %v", err)
 			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")
@@ -164,9 +165,20 @@ func (m *LaTrappeMelder) Serve() {
 		return c.HTML(http.StatusOK, index)
 	})
 
+	// Background job to check for updates
+	go func() {
+		for {
+
+			m.runMelderJob()
+
+			time.Sleep(15 * time.Minute)
+
+		}
+	}()
+
 	log.WithField("config", fmt.Sprintf("%+v", m.config)).Println("Starting La Trappe Melder... 🍻")
 
-	//m.SendMail(m.config.AdminMail, "La Trappe Melder starting 🍻", startupMailTemplate)
+	m.SendMail(m.config.AdminMail, "La Trappe Melder starting 🍻", startupMailTemplate)
 
 	e.Logger.Fatal(e.Start(m.config.HTTPAddress))
 
