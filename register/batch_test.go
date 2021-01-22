@@ -7,12 +7,12 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-const (
-	dbURL  = "sqlite:test.db"
-	dbFile = "test.db"
-)
+func TestBatch(t *testing.T) {
 
-func TestRegister(t *testing.T) {
+	const (
+		dbURL  = "sqlite:test_batch.db"
+		dbFile = "test_batch.db"
+	)
 
 	defer os.Remove(dbFile)
 

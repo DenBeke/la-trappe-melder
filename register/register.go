@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// Register is the wrapper struct around the batch database
+// Register is the wrapper struct around the batch & email database
 type Register struct {
 	db *gorm.DB
 }
@@ -27,7 +27,7 @@ func New(dbURL string) (*Register, error) {
 		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
 
-	err = db.AutoMigrate(&Batch{})
+	err = db.AutoMigrate(&Batch{}, &Subscription{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to run migrations: %w", err)
 	}
