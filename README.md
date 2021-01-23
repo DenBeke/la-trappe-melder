@@ -1,5 +1,9 @@
 # La Trappe Melder
 
+[![Build Status](https://travis-ci.com/DenBeke/la-trappe-melder.svg?branch=master)](https://travis-ci.com/DenBeke/la-trappe-melder)
+[![Go Report Card](https://goreportcard.com/badge/github.com/DenBeke/la-trappe-melder)](https://goreportcard.com/report/github.com/DenBeke/la-trappe-melder)
+[![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/denbeke/la-trappe-melder?sort=date)](https://hub.docker.com/r/denbeke/la-trappe-melder)
+
 Get notified when a new batch of La Trappe Quadrupel Oak Aged is released! 🍻
 
 ## Usage
