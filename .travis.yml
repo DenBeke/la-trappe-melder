@@ -1,0 +1,15 @@
+language: go
+os: linux
+go:
+  - 1.13
+  - 1.14
+  - 1.15
+script:
+  - go test -v ./...
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: curl -sL https://git.io/goreleaser | bash
+    on:
+      go: 1.15
+      tags: true
