@@ -184,7 +184,10 @@ func (m *LaTrappeMelder) Serve() {
 
 	log.WithField("config", fmt.Sprintf("%+v", m.config)).Println("Starting La Trappe Melder... 🍻")
 
-	m.SendMail(m.config.AdminMail, "La Trappe Melder starting 🍻", startupMailTemplate)
+	err = m.SendMail(m.config.AdminMail, "La Trappe Melder starting 🍻", startupMailTemplate)
+	if err != nil {
+		log.Fatalf("couldn't send startup mail: %v", err)
+	}
 
 	e.Logger.Fatal(e.Start(m.config.HTTPAddress))
 
