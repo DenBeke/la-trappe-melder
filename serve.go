@@ -68,16 +68,16 @@ func (m *LaTrappeMelder) Serve() {
 		}{}
 
 		if err = c.Bind(u); err != nil {
-			return c.HTML(http.StatusBadRequest, "Gelieve naam en emailadres op te geven.")
+			return c.HTML(http.StatusBadRequest, simpleHTMLResponse("Gelieve naam en emailadres op te geven."))
 		}
 
 		// Validate
 		if u.Email == "" || u.Name == "" {
-			return c.HTML(http.StatusBadRequest, "Gelieve naam en emailadres op te geven.")
+			return c.HTML(http.StatusBadRequest, simpleHTMLResponse("Gelieve naam en emailadres op te geven."))
 		}
 		err := checkmail.ValidateFormat(u.Email)
 		if err != nil {
-			return c.HTML(http.StatusBadRequest, "Gelieve een geldig emailadres op te geven.")
+			return c.HTML(http.StatusBadRequest, simpleHTMLResponse("Gelieve een geldig emailadres op te geven."))
 		}
 
 		exists, err := m.r.EmailExists(u.Email)
@@ -86,7 +86,7 @@ func (m *LaTrappeMelder) Serve() {
 			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")
 		}
 		if exists {
-			return c.HTML(http.StatusBadRequest, "Dit emailadres is al gekend in onze database.")
+			return c.HTML(http.StatusBadRequest, simpleHTMLResponse("Dit emailadres is al gekend in onze database."))
 		}
 
 		// Insert in DB
@@ -113,7 +113,7 @@ func (m *LaTrappeMelder) Serve() {
 			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")
 		}
 
-		return c.HTML(http.StatusOK, "Registratie voor de La Trappe Melder geslaagd!<br>Check je mailbox om je aanmelding te bevestigen.")
+		return c.HTML(http.StatusOK, simpleHTMLResponse("Registratie voor de La Trappe Melder geslaagd!<br>Check je mailbox om je aanmelding te bevestigen."))
 
 	})
 
@@ -121,7 +121,7 @@ func (m *LaTrappeMelder) Serve() {
 
 		uuid := c.Param("uuid")
 		if uuid == "" {
-			return c.HTML(http.StatusBadRequest, "Gelieve een geldige bevestigingslink te gebruiken.")
+			return c.HTML(http.StatusBadRequest, simpleHTMLResponse("Gelieve een geldige bevestigingslink te gebruiken."))
 		}
 
 		_, err := m.r.ConfirmSubscription(uuid)
@@ -130,7 +130,7 @@ func (m *LaTrappeMelder) Serve() {
 			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")
 		}
 
-		return c.HTML(http.StatusOK, "Je aanmelding is voltooid! Vanaf nu ontvang je de laatste nieuwe La Trappe Quadrupel Oak Aged batch in je mailbox!")
+		return c.HTML(http.StatusOK, simpleHTMLResponse("Je aanmelding is voltooid! Vanaf nu ontvang je de laatste nieuwe La Trappe Quadrupel Oak Aged batch in je mailbox!"))
 	})
 
 	e.GET("/unsubscribe/:email", func(c echo.Context) error {
@@ -142,7 +142,7 @@ func (m *LaTrappeMelder) Serve() {
 			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")
 		}
 		if !exists {
-			return c.HTML(http.StatusBadRequest, "We konden je niet terugvinden in onze database.")
+			return c.HTML(http.StatusBadRequest, simpleHTMLResponse("We konden je niet terugvinden in onze database."))
 		}
 
 		err = m.r.UnSubscribe(email)
@@ -151,12 +151,18 @@ func (m *LaTrappeMelder) Serve() {
 			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")
 		}
 
-		return c.HTML(http.StatusOK, "Je bent nu afgemeld van de La Trappe melder.")
+		return c.HTML(http.StatusOK, simpleHTMLResponse("Je bent nu afgemeld van de La Trappe melder."))
 	})
 
 	e.GET("/", func(c echo.Context) error {
 
-		index, err := htmlStringFromTemplate(index, m.config)
+		form, err := htmlStringFromTemplate(formTemplate, m.config)
+		if err != nil {
+			log.Errorf("couldn't get index: %v", err)
+			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")
+		}
+
+		index, err := htmlPageWithContent("La Trappe Melder", form)
 		if err != nil {
 			log.Errorf("couldn't get index: %v", err)
 			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")

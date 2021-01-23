@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>La Trappe Melder</title>
+  <title>{{ .Title }}</title>
   <meta name="description" content="Mis nooit meer een batch van de La Trappe Quadrupel Oak Aged!">
   <meta name="keywords" content="la trappe, la trappe quadrupel oak aged, bier, trappist" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -124,19 +124,7 @@
     <div class="container">
 
         <div class="card">
-            <form method="get" action="{{ .AppURL }}/subscribe">
-                    <h3>Schrijf je in!</h3>
-                    <p>Laatste nieuwe batch van de La Trappe Quadrupel Oak Aged in je mailbox?<br>Schrijf je dan hieronder in!</p>
-                    
-                    <p><input type="text" name="name" placeholder="Naam" required /></p>
-                    
-                    <p><input type="text" name="email" placeholder="E-mail" required /></p>
-                    
-                
-                    <p><input type="submit" value="Schrijf je in" /></p>
-
-                    <p class="notice">Door je in te schrijven ga je ermee akkoord dat we je emailadres in onze database opslaan en je mails sturen wanneer er nieuwe batches uitkomen. Je kan je te allen tijde uitschrijven.</p>
-            </form>	
+            {{ .Content }}
         </div><!-- .card -->
         
     </div><!-- .container -->
