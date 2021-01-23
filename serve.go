@@ -101,7 +101,8 @@ func (m *LaTrappeMelder) Serve() {
 		emailBody, err := htmlStringFromTemplate(signupMailTemplate, struct {
 			Name       string
 			ConfirmURL string
-		}{u.Name, confirmURL})
+			AppURL     string
+		}{u.Name, confirmURL, m.config.AppURL})
 		if err != nil {
 			log.Errorln(err)
 			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")

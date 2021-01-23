@@ -59,14 +59,17 @@ func (m *LaTrappeMelder) runMelderJob() {
 			Batch          int
 			UnsubscribeURL string
 			LaTrappeURL    string
+			AppURL         string
 		}{
 			Name:           s.Name,
 			Batch:          batch,
 			UnsubscribeURL: m.config.AppURL + "/unsubscribe/" + s.Email,
 			LaTrappeURL:    m.config.LaTrappeURL,
+			AppURL:         m.config.AppURL,
 		})
 		if err != nil {
 			log.WithField("subscriber", s).Errorf("couldn't send email to subscriber: %v", err)
+			continue
 		}
 
 		m.SendMail(s.Email, mailSubject, mailBody)
