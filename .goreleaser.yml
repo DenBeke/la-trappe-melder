@@ -10,12 +10,18 @@ builds:
 - env:
   - CGO_ENABLED=1
   main: ./cmd/latrappemelder/main.go
+  goarch:
+    - amd64
+  goos:
+    - linux
+    #- darwin
+    #- windows
+    # uncomment your operating system. (goreleaser doesn't support CGO)
 archives:
 - replacements:
     darwin: Darwin
     linux: Linux
     windows: Windows
-    386: i386
     amd64: x86_64
   files:
     - README.md
