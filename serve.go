@@ -114,6 +114,8 @@ func (m *LaTrappeMelder) Serve() {
 			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")
 		}
 
+		log.Println("successfully handled new subscription")
+
 		return c.HTML(http.StatusOK, simpleHTMLResponse("Registratie voor de La Trappe Melder geslaagd!<br>Check je mailbox om je aanmelding te bevestigen."))
 
 	})
@@ -130,6 +132,8 @@ func (m *LaTrappeMelder) Serve() {
 			log.Errorln(err)
 			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")
 		}
+
+		log.Println("successfully handled confirmation")
 
 		return c.HTML(http.StatusOK, simpleHTMLResponse("Je aanmelding is voltooid! Vanaf nu ontvang je de laatste nieuwe La Trappe Quadrupel Oak Aged batch in je mailbox!"))
 	})
@@ -151,6 +155,8 @@ func (m *LaTrappeMelder) Serve() {
 			log.Errorln(err)
 			return c.HTML(http.StatusInternalServerError, "Ooops, something went wrong...")
 		}
+
+		log.Println("successfully handled unsubscription")
 
 		return c.HTML(http.StatusOK, simpleHTMLResponse("Je bent nu afgemeld van de La Trappe melder."))
 	})

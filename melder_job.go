@@ -46,6 +46,8 @@ func (m *LaTrappeMelder) runMelderJob() {
 		log.Fatalf("couldn't get subscribers: %v", err)
 	}
 
+	log.WithField("subscribers", len(subscribers)).Printf("sending notifications to subscribers")
+
 	for _, s := range subscribers {
 
 		if !s.Confirmed {
@@ -72,7 +74,11 @@ func (m *LaTrappeMelder) runMelderJob() {
 			continue
 		}
 
-		m.SendMail(s.Email, mailSubject, mailBody)
+		err = m.SendMail(s.Email, mailSubject, mailBody)
+		if err != nil {
+			log.WithField("subscriber", s).Errorf("couldn't send email to subscriber: %v", err)
+			continue
+		}
 
 	}
 }
