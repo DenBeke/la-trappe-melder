@@ -134,7 +134,7 @@ var index = `
   
 
     <footer class="container">
-        <p>&copy;2021 <a href="https://denbeke.be">Mathias Beke</a></p>
+	    <p>&copy;2021 <a href="https://denbeke.be" target="_BLANK">Mathias Beke</a> - <a href="https://github.com/DenBeke/la-trappe-melder" target="_BLANK">Github</a></p>
     </footer><!-- .container -->
 	
 	
