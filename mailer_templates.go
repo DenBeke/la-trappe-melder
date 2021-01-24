@@ -5,19 +5,28 @@ import (
 )
 
 var mailParentTemplate = `
-<body style="margin: 0;min-height: 100%;font-size: 1.1em;font-family: 'Open Sans'; background: rgb(255,215,0); background: linear-gradient(180deg, rgba(255,215,0,1) 0%, rgba(218,165,32,1) 100%);">
+<!DOCTYPE html>
+<html style="margin: 0 !important; padding: 0 !important; min-height: 100%; min-height: 100vh; min-width: 100% !important; box-sizing: border-box;">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="x-apple-disable-message-reformatting" />
+	</head>
+	<body style="padding: 0 !important;margin: 0 !important;box-sizing: border-box;min-height: 100% !important; min-width:100% !important; width: 100% !important; font-size: 1.1em;font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; background: rgb(255,215,0); background: linear-gradient(180deg, rgba(255,215,0,1) 0%, rgba(218,165,32,1) 100%);">
 
 
-    <div class="container" style="max-width: 600px;padding: 1em;box-sizing: border-box;margin: auto;">
 
-        <div class="card" style="box-sizing: border-box;padding: 1em 1em;background-color: white;border-radius: 0.5em;box-shadow: 30px 30px 60px #b38500,
-             -30px -30px 60px #f2b500;">
-            {{ .Content }}
-        </div><!-- .card -->
-        
-    </div><!-- .container -->
-  
-</body>
+
+		<div class="container" style="max-width: 600px;padding: 1em;box-sizing: border-box;margin: auto;">
+
+			<div class="card" style="box-sizing: border-box;padding: 1em 1em;background-color: white;border-radius: 0.5em;box-shadow: 30px 30px 60px #b38500,
+				-30px -30px 60px #f2b500;">
+				{{ .Content }}
+			</div><!-- .card -->
+			
+		</div><!-- .container -->
+	
+	</body>
+</html>
 `
 
 var startupMailTemplate = strings.ReplaceAll(mailParentTemplate, "{{ .Content }}", `
