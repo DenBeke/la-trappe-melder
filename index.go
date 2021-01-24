@@ -136,7 +136,9 @@ var index = `
     <footer class="container">
         <p>&copy;2021 <a href="https://denbeke.be">Mathias Beke</a></p>
     </footer><!-- .container -->
-    
+	
+	
+	{{ .Tracking }}
 
 
 </body>

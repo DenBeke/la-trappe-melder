@@ -21,6 +21,7 @@ type Config struct {
 	AccessLog      bool
 	DatabaseURL    string
 	LaTrappeURL    string
+	HTMLTracking   string
 
 	SMTP struct {
 		Host       string
@@ -44,6 +45,7 @@ func BuildConfigFromEnv() *Config {
 	config.MetricsAddress = getEnv("METRICS_ADDRESS", defaultMetricsAddress)
 	config.DatabaseURL = getEnv("DATABASE_URL", defaultDatabaseURL)
 	config.LaTrappeURL = getEnv("LATRAPPE_URL", defaultLaTrappeURL)
+	config.HTMLTracking = getEnv("HTML_TRACKING", "")
 
 	config.SMTP.Host = getEnv("SMTP_HOST", "")
 

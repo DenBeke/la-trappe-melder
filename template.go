@@ -25,18 +25,19 @@ func htmlStringFromTemplate(htmlTemplate string, data interface{}) (string, erro
 
 }
 
-func htmlPageWithContent(title string, content string) (string, error) {
+func htmlPageWithContent(title string, content string, tracking string) (string, error) {
 
 	return htmlStringFromTemplate(index, struct {
-		Title   string
-		Content string
-	}{Title: title, Content: content})
+		Title    string
+		Content  string
+		Tracking string
+	}{Title: title, Content: content, Tracking: tracking})
 
 }
 
-func simpleHTMLResponse(content string) string {
+func (m *LaTrappeMelder) simpleHTMLResponse(content string) string {
 
-	page, err := htmlPageWithContent("La Trappe Melder", "<p>"+content+"</p>")
+	page, err := htmlPageWithContent("La Trappe Melder", "<p>"+content+"</p>", m.config.HTMLTracking)
 	if err != nil {
 		log.Errorf("Couldn't get html page template: %v", err)
 		page = "Oops, something went wrong"
