@@ -63,6 +63,10 @@ func BuildConfigFromEnv() *Config {
 	config.SMTP.FromName = getEnv("SMTP_FROM_NAME", "")
 	config.SMTP.FromEmail = getEnv("SMTP_FROM_EMAIL", "")
 
+	if config.SMTP.FromEmail != "" && config.SMTP.FromName != "" {
+		config.SMTP.FromEmail = fmt.Sprintf("%s <%s>", config.SMTP.FromName, config.SMTP.FromEmail)
+	}
+
 	// access log
 	accessLog := getEnv("ACCESS_LOG", "1")
 	if accessLog == "0" {
