@@ -1,15 +1,17 @@
 package scraper
 
 import (
+	"io/ioutil"
+	"strings"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
 
 const (
-	latrappeURL = "https://www.kloosterwinkelonline.nl/la-trappe-trappist-oak-aged"
-	pageTitle   = "Proef de stilte. La Trappe Quadrupel Oak Aged batch #39"
-	batch       = "39"
+	latrappeURL  = "https://nl.latrappetrappist.com/nl/nl/producten/batchregister.html"
+	batch        = "39"
+	testPagefile = "batchregister.html"
 )
 
 func TestScraper(t *testing.T) {
@@ -23,12 +25,43 @@ func TestScraper(t *testing.T) {
 
 	})
 
-	Convey("getBatchVersionFromPageTitle", t, func() {
+	Convey("getBatchFromPage", t, func() {
 
-		batch, err := getBatchVersionFromPageTitle(pageTitle)
-		So(err, ShouldBeNil)
+		pageBytes, err := ioutil.ReadFile(testPagefile)
+		So(err, ShouldEqual, nil)
+		page := string(pageBytes)
 
-		So(batch, ShouldEqual, "39")
+		b, err := getBatchFromPage(strings.NewReader(page))
+		So(err, ShouldEqual, nil)
+		So(b, ShouldEqual, batch)
 
 	})
+
+	Convey("getBatchFromH4Tag", t, func() {
+
+		b, err := getBatchFromH4Tag("Batch 39")
+		So(err, ShouldEqual, nil)
+		So(b, ShouldEqual, batch)
+
+		b, err = getBatchFromH4Tag(" Batch 39 ")
+		So(err, ShouldEqual, nil)
+		So(b, ShouldEqual, batch)
+
+		_, err = getBatchFromH4Tag("batch 39")
+		So(err, ShouldNotEqual, nil)
+
+		_, err = getBatchFromH4Tag("39")
+		So(err, ShouldNotEqual, nil)
+
+		_, err = getBatchFromH4Tag("#39")
+		So(err, ShouldNotEqual, nil)
+
+		_, err = getBatchFromH4Tag("Batch NotANumber")
+		So(err, ShouldNotEqual, nil)
+
+		_, err = getBatchFromH4Tag("Batch Not A Number")
+		So(err, ShouldNotEqual, nil)
+
+	})
+
 }

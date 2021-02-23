@@ -53,7 +53,7 @@ var newBatchTemplate = strings.ReplaceAll(mailParentTemplate, "{{ .Content }}", 
 <p>Dag, {{ .Name }},
 
 <p>
-Goed nieuws! La Trappe Quadrupel Oak Aged Batch #{{ .Batch }} is nu beschikbaar in de <a href="{{ .LaTrappeURL }}" target="_BLANK">online kloosterwinkel</a> van La Trappe!<br>
+Goed nieuws! La Trappe Quadrupel Oak Aged Batch #{{ .Batch }} is gepubliceerd in het <a href="{{ .LaTrappeURL }}" target="_BLANK">batch register</a> van La Trappe!<br>
 Laat het smaken!!! 🍻
 </p>
 

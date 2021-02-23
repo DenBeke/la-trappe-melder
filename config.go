@@ -10,7 +10,7 @@ var (
 	defaultHTTPAddress    = ":1234"
 	defaultMetricsAddress = ":9090"
 	defaultDatabaseURL    = "sqlite:test.db"
-	defaultLaTrappeURL    = "https://www.kloosterwinkelonline.nl/la-trappe-trappist-oak-aged"
+	defaultLaTrappeURL    = "https://nl.latrappetrappist.com/nl/nl/producten/batchregister.html"
 )
 
 // Config contains all the config for serving la trappe melder
